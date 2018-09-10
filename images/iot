@@ -1,0 +1,11 @@
+# The "IoT" images provide more free disk space if you don't need to use a GUI
+
+# Current version used at Project Apollo: bone-debian-9.3-iot-armhf-2018-01-28-4gb.img.xz
+
+# Link to download the image
+http://debian.beagleboard.org/images/bone-debian-9.3-iot-armhf-2018-01-28-4gb.img.xz
+
+# The image can be easily mounted at the SD Card using the software Etcher.
+
+# The image mounted at the SD Card can be flashed to the eMMC. See https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC
+
