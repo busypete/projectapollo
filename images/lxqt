@@ -1,0 +1,10 @@
+# The "LXQT" image provides a desktop GUI. Also, it supports X11 server.
+
+# Current version used at Project Apollo: http://debian.beagleboard.org/images/bone-debian-9.3-lxqt-armhf-2018-01-28-4gb.img.xz
+
+# Link to download the image
+http://debian.beagleboard.org/images/bone-debian-9.3-lxqt-armhf-2018-01-28-4gb.img.xz
+
+# The image can be easily mounted at the SD Card using the software Etcher.
+
+# The image mounted at the SD Card can be flashed to the eMMC. See https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC
