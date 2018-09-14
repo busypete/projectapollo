@@ -1,0 +1,17 @@
+/dts-v1/;  
+/plugin/;  
+
+/{  
+   compatible = "ti,beaglebone", "ti,beaglebone-green", "ti,beaglebone-black";  
+   part-number = "ADC";
+   version = "00A0";
+   
+   fragment@0 {
+        target = <&tscadc>;
+        __overlay__ {
+	    status = "disabled";
+        };
+   };
+
+};  
+  
