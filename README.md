@@ -1,5 +1,4 @@
-# projectapollo
-Project Apollo
+# Projectapollo
 
 Some useful links to understand the Apollo project. 
 
