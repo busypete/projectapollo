@@ -1,2 +1,23 @@
+// HOST SIDE
+/*******************************************************/
+
 // Include path CCS for "adc" project
 /home/bruno/ti-processor-sdk-linux-am335x-evm-04.02.00.09/linux-devkit/sysroots/armv7ahf-neon-linux-gnueabi/usr/include/
+
+/*******************************************************/
+
+// BBB SIDE
+/*******************************************************/
+
+// Overlay source
+/opt/source/bb.org-overlays/src/arm
+
+// Device tree documentation
+/opt/source/dtb-4.9-ti/Bindings
+
+// Qt libs
+/usr/lib
+
+/*******************************************************/
+
+
