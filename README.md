@@ -1,6 +1,6 @@
-# Projectapollo
+# Project Apollo
 
-Some useful links to understand the Apollo project. 
+Some useful links to understand the project Apollo.
 
 Documentation on the Debian image currently used in the project:
 https://elinux.org/Beagleboard:BeagleBoneBlack_Debian
