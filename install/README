@@ -20,24 +20,19 @@ Click 'Flash!'.
 
 https://github.com/busypete/projectapollo/releases/download/v1.0/install.zip
 
-6. Enter into the 'install' directory you just downloaded:
+6. Extract the 'install.zip' file you downloaded and enter into the 'install' directory just extracted:
 
 cd install
 
-7. Plug in the board in your PC using the USB cable and then execute the installation script:
-
-chmod u+x install_script.sh
-./install_script.sh
-
-8. Plug out the board from your PC. Insert the SD card, hold the S1 button and then plug in the board in your PC using the USB cable.
+7. Insert the SD card into the board adapter. Holding the S1 button, plug in the board in your PC using the USB cable.
 
 NOTE: It is necessary that you keep holding the button until the blue LED's in your board light up.
 
-9. Enter into the 'install' directory, just like at Step 6, and run the eMMC flashing script:
+8. Execute the installation script.
 
-cd install
-chmod u+x flashing_script.sh
-./eMMC_flashing_script.sh
+chmod u+x install_script.sh
+./install_script.sh -v
 
-10. Plug out the board from your PC and plug out the SD card from your board. You won't need it anymore. Next time you apply power to your board, it will boot on the Scope application. Enjoy!
+9. Wait until the board is turned off (the LEDs will be steady off). It's all ready. Plug out the board from your PC and plug out the SD card from your board. You won't need it anymore. Next time you apply power to your board, it will boot on the Scope application. 
 
+10. Enjoy!

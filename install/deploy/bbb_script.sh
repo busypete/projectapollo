@@ -94,6 +94,8 @@ service_install
 scope_install
 lib_install
 xorg_install
+echo "Default password: temppwd"
+reboot
 }
 
 mode=$1

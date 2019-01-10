@@ -1,28 +1,17 @@
-setup_ssh_keys()
+setup_ssh_hosts()
 {
-echo "---- Setup ssh keys ----"
-echo "Just press ENTER in the next prompts. If ~/.ssh/id_rsa already exists, overwrite it typing 'y' when asked."
-echo ""
-ssh-keygen -t rsa
-echo ""
-echo "Created ssh keys successfully."
-echo ""
-echo "Creating remote directory to receive ssh keys..."
-echo "Default password is: temppwd"
-ssh debian@beaglebone.local mkdir -p /home/debian/.ssh
-echo "Remote directory successfully created."
-echo ""
-echo "Transfering ssh keys to remote target..."
-echo "Default password is: temppwd"
-cat ~/.ssh/id_rsa.pub | ssh debian@beaglebone.local 'cat >> /home/debian/.ssh/authorized_keys'
-echo "Transferred ssh keys successfully."
+echo "---- SSH setup ----"
+echo "Resolving hostnames..."
+ssh-keygen -f "/home/bruno/.ssh/known_hosts" -R beaglebone.local
+sed -i '3d' ~/.ssh/known_hosts	
+echo "Hostnames resolved."
 echo ""
 }
 
 setup_remote_wi_fi()
 {
 echo "---- Setup remote Wi-Fi ----"
-echo "Type your user password."
+echo "Type your HOST user password if needed."
 echo ""
 echo "Configuring host's IP tables..."
 sudo ifconfig enx38d269576fbb 192.168.6.1
@@ -79,8 +68,8 @@ ssh debian@beaglebone.local -t "cd $DEPLOY_DIR; sudo ./bbb_script.sh $mode $DEPL
 run_install()
 {
 local mode=$1 
-#setup_ssh_keys
-setup_remote_wi_fi $mode
+setup_ssh_hosts
+setup_remote_wi_fi
 deploy_files $mode
 login_as_bbb_root $mode
 }
