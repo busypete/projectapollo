@@ -3,15 +3,20 @@
 
 /{  
    compatible = "ti,beaglebone", "ti,beaglebone-green", "ti,beaglebone-black";  
-   part-number = "ADC";
+   part-number = "PRU1";
    version = "00A0";
-   
+   exclusive-use =  
+   "pru1";  
+  
    fragment@0 {
-        target = <&tscadc>;
+        target = <&pruss>;
         __overlay__ {
-	    status = "disabled";
+            pru1_pins_pinmux {
+                status = "okay";
+            };
         };
    };
 
 };  
+  
   

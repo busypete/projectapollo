@@ -3,10 +3,9 @@
 // Compile .dts file (first cd into /lib/firmware)
 dtc -O dtb -I dts -o /lib/firmware/PRU0-00A0.dtbo -b 0 -@ PRU0-00A0.dts
 dtc -O dtb -I dts -o /lib/firmware/PRU1-00A0.dtbo -b 0 -@ PRU1-00A0.dts
-dtc -O dtb -I dts -o /lib/firmware/CAP-00A0.dtbo -b 0 -@ CAP-00A0.dts
-
 dtc -O dtb -I dts -o /lib/firmware/ENCODER-00A0.dtbo -b 0 -@ ENCODER-00A0.dts
 dtc -O dtb -I dts -o /lib/firmware/DISPLAY-00A0.dtbo -b 0 -@ DISPLAY-00A0.dts
+dtc -O dtb -I dts -o /lib/firmware/SGX-00A0.dtbo -b 0 -@ SGX-00A0.dts
 
 // Decompile .dtbo file
 dtc -I dtb -O dts am335x-boneblack.dtb > am335x-boneblack.dts
@@ -24,7 +23,7 @@ sed -i '3d' ~/.ssh/known_hosts						// Remove offending key at 3rd line
 // SCP
 /*******************************************************/
 // BBB to HOST
-scp /home/debian/stomp/pru0.out bruno@192.168.7.1:/home/bruno/Downloads
+scp /home/debian/stomp/pru0.out bruno@192.168.6.1:/home/bruno/Downloads
 
 // HOST TO BBB
 scp /home/bruno/Downloads/pru0.out debian@beaglebone.local:/home/debian/stomp
@@ -64,13 +63,13 @@ echo 'stop' > /sys/class/remoteproc/remoteproc2/state
 // Wi-Fi over-USB
 /*******************************************************/
 
-// IP do HOST na Ethernet-over-USB: 192.168.7.1
-// Interface Ethernet-over-USB do BBB: enx38d269576fb8
+// IP do HOST na Ethernet-over-USB: 192.168.6.1
+// Interface Ethernet-over-USB do BBB: enx38d269576fbb
 // Interface Wi-Fi: wlp3s0f0
 
 // BBB side
 /*******************************************************/
-/sbin/route add default gw 192.168.7.1 // Refazer esse comando após cada reboot e checar se o IP do HOST de fato é 192.168.7.1
+/sbin/route add default gw 192.168.6.1 // Refazer esse comando após cada reboot e checar se o IP do HOST de fato é 192.168.6.1
 				       // Se não for, alternar entre as duas conexões Ethernet disponíveis para o BBB
 vi /etc/resolv.conf 		       // Apagar tudo q tiver no arquivo e então colar as linhas abaixo
 	domain localdomain
@@ -81,9 +80,9 @@ vi /etc/resolv.conf 		       // Apagar tudo q tiver no arquivo e então colar as
 
 // HOST side
 /*******************************************************/
-sudo ifconfig enx38d269576fb8 192.168.7.1
+sudo ifconfig enx38d269576fbb 192.168.6.1
 sudo iptables --table nat --append POSTROUTING --out-interface wlp3s0f0 -j MASQUERADE
-sudo iptables --append FORWARD --in-interface enx38d269576fb8 -j ACCEPT
+sudo iptables --append FORWARD --in-interface enx38d269576fbb -j ACCEPT
 sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 /*******************************************************/
 
@@ -95,6 +94,11 @@ sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 source /home/bruno/ti-processor-sdk-linux-am335x-evm-04.02.00.09/linux-devkit/environment-setup
 cd /home/bruno/Qt/Tools/QtCreator/bin
 ./qtcreator
+
+// libEGL authenticate warning fix:
+ln -fs /usr/lib/libEGL.so.1 /usr/lib/arm-linux-eabihf/libEGL.so.1
+
+
 /*******************************************************/
 
 
