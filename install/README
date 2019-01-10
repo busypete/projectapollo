@@ -18,7 +18,7 @@ Click 'Flash!'.
 
 5. Unplug the SD card adapter from your PC and then download the latest release from ProjectApollo repo:
 
-git clone https://github.com/busypete/projectapollo/install
+https://github.com/busypete/projectapollo/releases/download/v1.0/install.zip
 
 6. Enter into the 'install' directory you just downloaded:
 
