@@ -88,3 +88,5 @@ chmod u+x /home/debian/stomp/load.sh
 
 # Check if it boots right up on the Scope application (short the black and white wires to see if it measures 0 V)
 reboot 
+
+
