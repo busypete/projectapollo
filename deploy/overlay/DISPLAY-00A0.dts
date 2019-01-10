@@ -1,0 +1,135 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "ti,beaglebone", "ti,beaglebone-black", "ti,beaglebone-green";
+	part-number = "DISPLAY-00A0";
+	version = "00A0";
+
+	exclusive-use =
+
+		"P8.45",	/* lcd: lcd_data0 */
+		"P8.46",	/* lcd: lcd_data1 */
+		"P8.43",	/* lcd: lcd_data2 */
+		"P8.44",	/* lcd: lcd_data3 */
+		"P8.41",	/* lcd: lcd_data4 */
+		"P8.42",	/* lcd: lcd_data5 */
+		"P8.39",	/* lcd: lcd_data6 */
+		"P8.40",	/* lcd: lcd_data7 */
+		"P8.37",	/* lcd: lcd_data8 */
+		"P8.38",	/* lcd: lcd_data9 */
+		"P8.36",	/* lcd: lcd_data10 */
+		"P8.34",	/* lcd: lcd_data11 */
+		"P8.35",	/* lcd: lcd_data12 */
+		"P8.33",	/* lcd: lcd_data13 */
+		"P8.31",	/* lcd: lcd_data14 */
+		"P8.32",	/* lcd: lcd_data15 */
+
+		"P8.15",	/* lcd: lcd_data16 */
+		"P8.16",	/* lcd: lcd_data17 */
+		"P8.11",	/* lcd: lcd_data18 */
+		"P8.12",	/* lcd: lcd_data19 */
+		"P8.17",	/* lcd: lcd_data20 */
+		"P8.14",	/* lcd: lcd_data21 */
+		"P8.13",	/* lcd: lcd_data22 */
+		"P8.19",	/* lcd: lcd_data23 */
+
+		"P8.27",	/* lcd: lcd_vsync */
+		"P8.29",	/* lcd: lcd_hsync */
+		"P8.28",	/* lcd: lcd_pclk */
+		"P8.30",	/* lcd: lcd_data_enable */
+
+		"lcd";
+
+	fragment@0 {
+		target = <&am33xx_pinmux>;
+		__overlay__ {
+
+			lcd_pins: pinmux_lcd_pins {
+				pinctrl-single,pins = <	0xA0 0x8	/* lcd: lcd_data0 */
+							0xA4 0x8 	/* lcd: lcd_data1 */
+							0xA8 0x8 	/* lcd: lcd_data2 */
+							0xAC 0x8 	/* lcd: lcd_data3 */
+							0xB0 0x8 	/* lcd: lcd_data4 */
+							0xB4 0x8 	/* lcd: lcd_data5 */
+							0xB8 0x8 	/* lcd: lcd_data6 */
+							0xBC 0x8 	/* lcd: lcd_data7 */
+							0xC0 0x8 	/* lcd: lcd_data8 */
+							0xC4 0x8 	/* lcd: lcd_data9 */
+							0xC8 0x8 	/* lcd: lcd_data10 */
+							0xCC 0x8 	/* lcd: lcd_data11 */
+							0xD0 0x8 	/* lcd: lcd_data12 */
+							0xD4 0x8 	/* lcd: lcd_data13 */
+							0xD8 0x8 	/* lcd: lcd_data14 */
+							0xDC 0x8 	/* lcd: lcd_data15 */
+
+							0x3C 0x9 	/* lcd: lcd_data16 */
+							0x38 0x9 	/* lcd: lcd_data17 */
+							0x34 0x9 	/* lcd: lcd_data18 */
+							0x30 0x9 	/* lcd: lcd_data19 */
+							0x2C 0x9 	/* lcd: lcd_data20 */
+							0x28 0x9 	/* lcd: lcd_data21 */
+							0x24 0x9 	/* lcd: lcd_data22 */
+							0x20 0x9 	/* lcd: lcd_data23 */
+
+							0xE0 0x8 	/* lcd: lcd_vsync */
+							0xE4 0x8 	/* lcd: lcd_hsync */
+							0xE8 0x8 	/* lcd: lcd_pclk */
+							0xEC 0x8	/* lcd: lcd_data_enable */
+				>;
+			};
+
+		};
+	};
+
+
+	fragment@1 {
+		target = <&lcdc>;
+		__overlay__ {
+			status = "okay";
+			blue-and-red-wiring = "crossed";
+		};
+	};
+
+	fragment@2 {
+		target-path="/";
+		__overlay__ {
+
+			panel {
+				status = "okay";
+				compatible = "ti,tilcdc,panel";
+				pinctrl-names = "default";
+				pinctrl-0 = <&lcd_pins>;
+				panel-info {
+					ac-bias           = <255>;		/* AC Bias Pin Frequency */
+					ac-bias-intrpt    = <0>;		/* AC Bias Pin Transitions per Interrupt */
+					dma-burst-sz      = <16>;		/* DMA burst size */
+					bpp               = <24>;		/* Bits per pixel */
+					fdd               = <0x80>;		/* FIFO DMA Request Delay */
+					sync-edge         = <0>;		/* Horizontal and Vertical Sync Edge: 0=rising 1=falling */
+					sync-ctrl         = <0>;		/* Horizontal and Vertical Sync: Control: 0=ignore */
+					raster-order      = <1>;		/* Raster Data Order Select: 1=Most-to-least 0=Least-to-most */
+					fifo-th           = <0>;		/* DMA FIFO threshold */
+				};
+				display-timings {
+					native-mode = <&timing>;
+					timing: 800x480 {
+						clock-frequency = <33300000>;	/* Clock de dados */
+                				hactive         = <800>;	/* Resolução */
+                				vactive         = <480>;	/* Resolução */
+                				hfront-porch    = <16 210 354>; /* Timing (ver datasheet IL16122) */
+                				hback-porch     = <46>;		/* Timing (ver datasheet IL16122) */		
+                				hsync-len       = <1 20 40>;	/* Timing (ver datasheet IL16122) */
+                				vback-porch     = <23>;		/* Timing (ver datasheet IL16122) */
+                				vfront-porch    = <7 22 47>;	/* Timing (ver datasheet IL16122) */
+                				vsync-len       = <1 10	20>;	/* Timing (ver datasheet IL16122) */
+                				hsync-active    = <0>;		/* 'Hsync' ativo na borda de descida */
+                				vsync-active    = <0>;		/* 'Vsync' ativo na borda de descida */
+                				de-active       = <1>;		/* 'Data Enable' ativo em alto */
+                				pixelclk-active = <0>;		/* 'Data Clock' ativo na borda de descida */
+					};
+				};
+			};
+		};
+	};
+};

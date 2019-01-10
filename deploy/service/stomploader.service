@@ -1,0 +1,9 @@
+[Unit]
+Description=Stomp Audio Labs Bootloader
+Requires=multi-user.target
+After=multi-user.target
+[Service]
+Type=idle
+ExecStart=/usr/bin/stomploader.sh
+[Install]
+WantedBy=multi-user.target
