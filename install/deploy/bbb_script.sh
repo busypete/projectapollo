@@ -94,6 +94,7 @@ service_install
 scope_install
 lib_install
 xorg_install
+rm -rf $DEPLOY_DIR
 echo "Default password: temppwd"
 reboot
 }

@@ -116,5 +116,5 @@ args_number=$#
 REMOTE_HOME_DIR=/home/debian/stomp
 DEPLOY_DIR=$REMOTE_HOME_DIR/deploy
 DOWNLOAD_DIR=$(pwd)
-main
+main 2>&1 | tee install.log
 

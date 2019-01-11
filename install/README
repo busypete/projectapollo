@@ -35,4 +35,6 @@ chmod u+x install_script.sh
 
 9. Wait until the board is turned off (the LEDs will be steady off). It's all ready. Plug out the board from your PC and plug out the SD card from your board. You won't need it anymore. Next time you apply power to your board, it will boot on the Scope application. 
 
-10. Enjoy!
+NOTE: If anything wrong happened, please let us know and send us the installation log file, which is located at 'install' folder, under the name 'install.log'. An example of a successful installation log file is provided at 'right_install.log'. 
+
+10. Enjoy! 
