@@ -1,6 +1,7 @@
 DESTDIR = /
-prefix = /usr
-etcdir = /etc
+
+prefix = usr
+etcdir = etc
 bindir = ${prefix}/bin
 incdir = ${prefix}/include
 libdir = ${prefix}/lib
@@ -12,7 +13,7 @@ install:
 	mkdir -p ${DESTDIR}${bindir}
 	mkdir -p ${DESTDIR}${incdir}
 	mkdir -p ${DESTDIR}${libdir}
-	mv  etc/* ${DESTDIR}${etcdir}
-	mv  bin/* ${DESTDIR}${bindir}
-	mv  include/* ${DESTDIR}${incdir}
-	mv  lib/* ${DESTDIR}${libdir}
+	cp -ar etc/* ${DESTDIR}${etcdir}
+	cp -ar bin/* ${DESTDIR}${bindir}
+	cp -ar include/* ${DESTDIR}${incdir}
+	cp -ar lib/* ${DESTDIR}${libdir}

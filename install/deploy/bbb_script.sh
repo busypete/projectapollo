@@ -30,12 +30,14 @@ service_install()
 {
 echo "---- Services ----"
 echo "Installing bootloader services..."
-mv $SERVICE_DIR/stomploader.sh /usr/bin
-chmod u+x /usr/bin/stomploader.sh
-mv $SERVICE_DIR/stomploader.service /lib/systemd/system
+chmod u+x $SERVICE_DIR/*.sh
+mv $SERVICE_DIR/*.sh /usr/bin/
+mv $SERVICE_DIR/*.service /lib/systemd/system
 ln -s /lib/systemd/system/stomploader.service /etc/systemd/system/stomploader.service
+ln -s /lib/systemd/system/sgx.service /etc/systemd/system/sgx.service
 systemctl daemon-reload
 systemctl enable stomploader.service
+systemctl enable sgx.service
 echo "Bootloader services successfully installed."
 echo ""
 rm -rf $SERVICE_DIR
@@ -84,6 +86,23 @@ echo "X11 server successfully configured."
 echo ""
 }
 
+sgx_install()
+{
+echo "---- SGX support ----"
+echo "Installing SGX kernel drivers..."
+apt install $SGX_DIR/drivers/ti-sgx-ti335x-modules-4.9.78-ti-r94_1stretch_armhf.deb
+depmod -a
+echo "Kernel drivers successfully installed."
+echo ""
+echo "Installing SGX userspace libraries..."
+cd $SGX_DIR
+make install
+sed -i '$ a export LD_LIBRARY_PATH="/usr/lib/"' /root/.bashrc
+echo "SGX userspace libraries successfully installed."
+echo ""
+rm -rf $SGX_DIR
+}
+
 main()
 {
 echo ""
@@ -94,6 +113,7 @@ service_install
 scope_install
 lib_install
 xorg_install
+sgx_install
 rm -rf $DEPLOY_DIR
 echo "Default password: temppwd"
 reboot
@@ -107,5 +127,6 @@ SERVICE_DIR=$DEPLOY_DIR/service
 SCOPE_DIR=$DEPLOY_DIR/scope
 LIB_DIR=$DEPLOY_DIR/lib
 XORG_DIR=$DEPLOY_DIR/xorg
+SGX_DIR=$DEPLOY_DIR/sgx
 main
 
