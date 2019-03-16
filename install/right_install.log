@@ -1,0 +1,56 @@
+---- SSH setup ----
+Resolving hostnames...
+# Host am335x-evm.local found: line 3
+/home/bruno/.ssh/known_hosts updated.
+Original contents retained as /home/bruno/.ssh/known_hosts.old
+Hostnames resolved.
+
+---- Deploy files ----
+Changing remote deploy directory permissions...
+Warning: Permanently added 'am335x-evm.local,192.168.7.2' (RSA) to the list of known hosts.
+Connection to am335x-evm.local closed.
+Permissions sucessfully changed.
+
+Deploying files...
+Files deployed.
+
+---- Remote script ----
+Changing remote deploy script permissions...
+Permissions sucessfully changed.
+
+Executing remote deploy script as root...
+
+---- Overlays ----
+Installing overlays...
+Overlays sucessfully installed.
+
+---- Services ----
+Installing bootloader services...
+Created symlink /etc/systemd/system/multi-user.target.wants/stomploader.service → /lib/systemd/system/stomploader.service.
+Synchronizing state of matrix-gui-2.0.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable matrix-gui-2.0
+update-rc.d: /etc/init.d/matrix-gui-2.0 exists during rc.d purge (continuing)
+ Removing any system startup links for matrix-gui-2.0 ...
+Removed /etc/systemd/system/multi-user.target.wants/matrix-gui-2.0.service.
+Bootloader services successfully installed.
+
+---- Scope application ----
+Installing the Scope application...
+Scope application successfully installed.
+
+---- Userspace libaries ----
+Installing userspace libraries...
+Fixing libraries symlinks...
+Libraries symlinks successfully fixed.
+
+Userspace libraries successfully installed.
+
+---- IP address ----
+Configuring static IP address...
+Static IP address successfully configured.
+
+
+---- Instalation completed successfully ----
+
+Connection to am335x-evm.local closed by remote host.
+Connection to am335x-evm.local closed.
