@@ -4,11 +4,16 @@
 
 https://github.com/busypete/projectapollo/releases/download/v2.0.0/install.zip
 
-3. Extract the 'install.zip' file you downloaded and enter into the 'install' directory just extracted:
+3. Download the root filesystem used in ProjectApollo:
 
-cd install
+#some dropbox link in the future because the file is big (git can't stand it)
 
-4. Run the create-sdcard.sh script to flash your SD card with the image used in project Apollo:
+4. Extract the 'install.zip' file you downloaded and move the filesystem inside the extracted folder:
+
+mv ~/Downloads/tisdk-rootfs-image-am335x-evm.tar.xz ~/Downloads/install/img/rootfs/ :
+cd ~/Downloads/install
+
+5. Run the create-sdcard.sh script to flash your SD card with the image used in project Apollo:
 
 chmod u+x create-sdcard.sh
 sudo ./create-sdcard.sh
@@ -24,15 +29,15 @@ NOTE: When prompted for kernel image and device tree files path "./img/kernel/"
 NOTE: When prompted to confirm kernel image and device tree files path, type "y" and hit Enter.
 NOTE: When prompted for rootfs path, type "./img/rootfs/tisdk-rootfs-image-am335x-evm.tar.xz" and hit Enter.
 
-5. Unplug the SD card from the PC and insert it into the board adapter. Holding the S1 button, plug in the board in your PC using the USB cable.
+6. Unplug the SD card from the PC and insert it into the board adapter. Holding the S1 button, plug in the board in your PC using the USB cable.
 
 NOTE: It is necessary that you keep holding the button until the blue LEDs in your board light up.
 
-6. Execute the installation script.
+7. Execute the installation script.
 
 chmod u+x install_script.sh
 ./install_script.sh
 
 NOTE: When prompted for the authenticity of the host, type "yes" and hit Enter.
 
-7. Enjoy! 
+8. Enjoy! 
