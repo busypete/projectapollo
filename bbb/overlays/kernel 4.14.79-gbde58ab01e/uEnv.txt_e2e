@@ -1,0 +1,4 @@
+ip_method=none
+bootfile=zImage
+getuenv=if mmc rescan; then if run loadbootenv; then run importbootenv; fi; fi;
+bootcmd=mmc rescan; run findfdt; run init_console; run getuenv; setenv devtype mmc; run loadimage; run loadfdt; run args_mmc; bootz ${loadaddr} - ${fdtaddr}

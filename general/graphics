@@ -1,0 +1,60 @@
+// Nice path variables
+/*******************************************************/
+ssh am335x-evm.local
+export SGX_PATH=/usr/bin/SGX/demos/
+export SGX_RAW_PATH=$SGX_PATH/Raw
+export SGX_WAYLAND_PATH=$SGX_PATH/Wayland
+export QT_PATH=/usr/share/qt5/examples
+/*******************************************************/
+
+/*******************************************************/
+
+// Running SGX demos and Qt demos with native windowing system
+/*******************************************************/
+// Kill Weston
+killall weston
+
+// Run SGX Raw demos (press 'q' to quit)
+cd $SGX_RAW_PATH
+./OGLES2ChameleonMan
+
+// Run Qt demos 
+cd $QT_PATH
+opengl/hellowindow/hellowindow -platform eglfs
+/*******************************************************/
+
+// Running Weston clients, SGX demos and Qt demos through DRM/KMS backend
+/*******************************************************/
+// Unset environmental variable
+unset WAYLAND_DISPLAY
+
+// Check connector id (only necessary if you don't already know it)
+modetest
+
+// Run Weston (press 'Ctrl + C' to quit)
+weston --tty=1 --connector=30
+
+// Open another shell and login into the target
+
+// Run Weston clients (press 'Ctrl + C' to quit)
+/usr/bin/weston-flower
+
+// Run SGX Wayland demos (press 'q' to quit)
+cd $SGX_WAYLAND_PATH
+./OGLES2ChameleonMan
+
+// Run Qt demos
+cd $QT_PATH
+opengl/hellowindow/hellowindow
+/*******************************************************/
+
+// Matrix application
+/*******************************************************/
+reboot
+
+// Plug in mouse to BBB to interact locally or type 192.168.7.2 in the browser to interact remotely
+
+/*******************************************************/
+
+
+

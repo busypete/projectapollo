@@ -1,0 +1,48 @@
+
+// Change dtb file used by kernel at boot (not necessary because the default is already am335x-boneblack.dtb)
+/*******************************************************/
+
+// Put "uEnv.txt" at boot partition with this line:
+fdtfile=am335x-boneblack.dtb
+
+/*******************************************************/
+
+// Nice path variables
+/*******************************************************/
+export SDK_PATH=/home/bruno/ti-processor-sdk-linux-am335x-evm-05.02.00.10
+export KERNEL_PATH=$SDK_PATH/board-support/linux-4.14.79+gitAUTOINC+bde58ab01e-gbde58ab01e
+export DTB_PATH=$KERNEL_PATH/arch/arm/boot/dts
+/*******************************************************/
+
+// Compiling device tree binaries after editing .dts and .dtsi files under $DTB_PATH
+/*******************************************************/
+// Entering the kernel root directory
+cd $KERNEL_PATH
+
+// Exporting PATH
+export PATH=$SDK_PATH/linux-devkit/sysroots/x86_64-arago-linux/usr/bin:$PATH
+
+// Cleaning kernel source
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
+
+// Configuring kernel
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- tisdk_am335x-evm_defconfig
+
+// Compiling device tree binaries
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- am335x-boneblack.dtb
+
+// Checking difference between this new compiled device tree binary and the previous one at the original targetNFS filesystem
+diff arch/arm/boot/dts/am335x-boneblack.dtb /home/bruno/ti-processor-sdk-linux-am335x-evm-05.02.00.10/targetNFS/boot/am335x-boneblack.dtb
+/*******************************************************/
+
+
+// Copying device tree binary to target filesystem
+/*******************************************************/
+scp $DTB_PATH/am335x-boneblack.dtb root@am335x-evm.local:/boot/
+ssh root@am335x-evm.local
+cd /boot
+rm devicetree-zImage-am335x-boneblack.dtb
+ln -fs am335x-boneblack.dtb devicetree-zImage-am335x-boneblack.dtb
+reboot
+/*******************************************************/
+

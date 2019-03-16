@@ -2,28 +2,9 @@ setup_ssh_hosts()
 {
 echo "---- SSH setup ----"
 echo "Resolving hostnames..."
-ssh-keygen -f "/home/bruno/.ssh/known_hosts" -R beaglebone.local
+ssh-keygen -f "/home/bruno/.ssh/known_hosts" -R $TARGET_IP
 sed -i '3d' ~/.ssh/known_hosts	
 echo "Hostnames resolved."
-echo ""
-}
-
-setup_remote_wi_fi()
-{
-echo "---- Setup remote Wi-Fi ----"
-echo "Type your HOST user password if needed."
-echo ""
-echo "Configuring host's IP tables..."
-sudo ifconfig enx38d269576fbb 192.168.6.1
-sudo iptables --table nat --append POSTROUTING --out-interface wlp3s0f0 -j MASQUERADE
-sudo iptables --append FORWARD --in-interface enx38d269576fbb -j ACCEPT
-sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
-echo "Host's IP tables successfully configured."
-echo ""
-echo "Configuring remote route..."
-echo "Default password is: temppwd"
-ssh debian@beaglebone.local -t "sudo /sbin/route add default gw 192.168.6.1"
-echo "Remote route sucessfully configured."
 echo ""
 }
 
@@ -31,47 +12,44 @@ deploy_files()
 {
 echo "---- Deploy files ----"
 echo "Changing remote deploy directory permissions..."
-echo "Default password is: temppwd"
-ssh debian@beaglebone.local -t "mkdir -p $REMOTE_HOME_DIR; sudo chmod 777 $REMOTE_HOME_DIR"
+ssh $TARGET_USER@$TARGET_IP -t "mkdir -p $REMOTE_HOME_DIR; sudo chmod 777 $REMOTE_HOME_DIR"
 echo "Permissions sucessfully changed."
 echo ""
-if test "$mode" = 'verbose';
-	then
-	echo "Deploying files..."
-	echo "Default password is: temppwd"
-	scp -r $DOWNLOAD_DIR/deploy debian@beaglebone.local:$REMOTE_HOME_DIR
-	echo "Files deployed."
-elif test "$mode" = 'quiet';
-	then
-	echo "Deploying files..."
-	scp -q -r $DOWNLOAD_DIR/deploy debian@beaglebone.local:$REMOTE_HOME_DIR
-	echo "Files deployed."
-fi
+echo "Deploying files..."
+scp -r $DOWNLOAD_DIR/deploy $TARGET_USER@$TARGET_IP:$REMOTE_HOME_DIR
+echo "Files deployed."
 echo ""
 }
 
 login_as_bbb_root()
 {
 echo "---- Remote script ----"
-local mode=$1
 echo "Changing remote deploy script permissions..."
-echo "Default password is: temppwd"
-ssh debian@beaglebone.local -t "sudo chmod u+x $DEPLOY_DIR/bbb_script.sh" 
+ssh $TARGET_USER@$TARGET_IP "sudo chmod u+x $DEPLOY_DIR/bbb_script.sh" 
 echo "Permissions sucessfully changed."
 echo ""
 echo "Executing remote deploy script as root..."
-echo "Default password is: temppwd"
 echo ""
-ssh debian@beaglebone.local -t "cd $DEPLOY_DIR; sudo ./bbb_script.sh $mode $DEPLOY_DIR $REMOTE_HOME_DIR" 
+ssh $TARGET_USER@$TARGET_IP -t "cd $DEPLOY_DIR; sudo ./bbb_script.sh $DEPLOY_DIR $REMOTE_HOME_DIR" 
 }
 
 run_install()
 {
-local mode=$1 
 setup_ssh_hosts
-setup_remote_wi_fi
-deploy_files $mode
-login_as_bbb_root $mode
+deploy_files
+login_as_bbb_root
+}
+
+
+help_message()
+{
+echo "This script will install the ProjectApollo on your device. It may take a few minutes."
+echo "Usage:  ./install_script.sh" 
+}
+
+error_message()
+{
+echo "Invalid command. Type './install_script.sh --help' for help on using this script."
 }
 
 menu()
@@ -80,30 +58,16 @@ if test "$args_number" -eq 1;
 	then
 	if test "$action" = '--help'; 
 		then
-		echo "This script will install the ProjectApollo on your device. It may take a few minutes."
-		echo "First argument:  verbosity level" 
-		echo "     -- options --     -v: verbose installation"
-		echo "                       -q: quiet installatoin"
-	elif test "$action" = '-v'; 
-		then
-		run_install verbose 
-	elif test "$action" = '-q'; 
-		then
-		run_install quiet
+		help_message
 	else	
-		error
+		error_message
 	fi
 elif test "$args_number" -eq 0;
 	then
-	run_install silent
+	run_install
 else
 	error
 fi
-}
-
-error()
-{
-echo "Invalid command. Type './install_script.sh --help' for help on using this script."
 }
 
 main()
@@ -113,7 +77,9 @@ menu
 
 action=$1
 args_number=$#
-REMOTE_HOME_DIR=/home/debian/stomp
+TARGET_IP=am335x-evm.local
+TARGET_USER=root
+REMOTE_HOME_DIR=/home/root/stomp
 DEPLOY_DIR=$REMOTE_HOME_DIR/deploy
 DOWNLOAD_DIR=$(pwd)
 main 2>&1 | tee install.log

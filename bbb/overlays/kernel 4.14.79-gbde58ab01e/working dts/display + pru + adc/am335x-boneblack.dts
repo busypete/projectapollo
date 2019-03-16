@@ -1,0 +1,126 @@
+/*
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include "am335x-bone-common.dtsi"
+#include "am335x-boneblack-common.dtsi"
+
+&sgx {
+	status = "okay";
+};
+
+/ {
+	model = "TI AM335x BeagleBone Black";
+	compatible = "ti,am335x-bone-black", "ti,am335x-bone", "ti,am33xx";
+	panel {
+		status = "okay";
+		compatible = "ti,tilcdc,panel";
+		pinctrl-names = "default";
+		pinctrl-0 = <&lcd_pins>;
+		panel-info {
+			ac-bias           = <255>;		/* AC Bias Pin Frequency */
+			ac-bias-intrpt    = <0>;		/* AC Bias Pin Transitions per Interrupt */
+			dma-burst-sz      = <16>;		/* DMA burst size */
+			bpp               = <24>;		/* Bits per pixel */
+			fdd               = <0x80>;		/* FIFO DMA Request Delay */
+			sync-edge         = <0>;		/* Horizontal and Vertical Sync Edge: 0=rising 1=falling */
+			sync-ctrl         = <0>;		/* Horizontal and Vertical Sync: Control: 0=ignore */
+			raster-order      = <1>;		/* Raster Data Order Select: 1=Most-to-least 0=Least-to-most */
+			fifo-th           = <0>;		/* DMA FIFO threshold */
+		};
+		display-timings {
+			native-mode = <&timing>;
+			timing: 800x480 {
+				clock-frequency = <33300000>;	/* Clock de dados */
+                		hactive         = <800>;	/* Resolução */
+                		vactive         = <480>;	/* Resolução */
+             			hfront-porch    = <16 210 354>; /* Timing (ver datasheet IL16122) */
+                		hback-porch     = <46>;		/* Timing (ver datasheet IL16122) */		
+                		hsync-len       = <1 20 40>;	/* Timing (ver datasheet IL16122) */
+                		vback-porch     = <23>;		/* Timing (ver datasheet IL16122) */
+              			vfront-porch    = <7 22 47>;	/* Timing (ver datasheet IL16122) */
+                		vsync-len       = <1 10	20>;	/* Timing (ver datasheet IL16122) */
+                		hsync-active    = <0>;		/* 'Hsync' ativo na borda de descida */
+                		vsync-active    = <0>;		/* 'Vsync' ativo na borda de descida */
+                		de-active       = <1>;		/* 'Data Enable' ativo em alto */
+                		pixelclk-active = <0>;		/* 'Data Clock' ativo na borda de descida */
+			};
+		};
+	};
+};
+
+&am33xx_pinmux {
+	lcd_pins: pinmux_lcd_pins {
+		pinctrl-single,pins = <	0xA0 0x8	/* lcd: lcd_data0 */
+					0xA4 0x8 	/* lcd: lcd_data1 */
+					0xA8 0x8 	/* lcd: lcd_data2 */
+					0xAC 0x8 	/* lcd: lcd_data3 */
+					0xB0 0x8 	/* lcd: lcd_data4 */
+					0xB4 0x8 	/* lcd: lcd_data5 */
+					0xB8 0x8 	/* lcd: lcd_data6 */
+					0xBC 0x8 	/* lcd: lcd_data7 */
+					0xC0 0x8 	/* lcd: lcd_data8 */
+					0xC4 0x8 	/* lcd: lcd_data9 */
+					0xC8 0x8 	/* lcd: lcd_data10 */
+					0xCC 0x8 	/* lcd: lcd_data11 */
+					0xD0 0x8 	/* lcd: lcd_data12 */
+					0xD4 0x8 	/* lcd: lcd_data13 */
+					0xD8 0x8 	/* lcd: lcd_data14 */
+					0xDC 0x8 	/* lcd: lcd_data15 */
+
+					0x3C 0x9 	/* lcd: lcd_data16 */
+					0x38 0x9 	/* lcd: lcd_data17 */
+					0x34 0x9 	/* lcd: lcd_data18 */
+					0x30 0x9 	/* lcd: lcd_data19 */
+					0x2C 0x9 	/* lcd: lcd_data20 */
+					0x28 0x9 	/* lcd: lcd_data21 */
+					0x24 0x9 	/* lcd: lcd_data22 */
+					0x20 0x9 	/* lcd: lcd_data23 */
+
+					0xE0 0x8 	/* lcd: lcd_vsync */
+					0xE4 0x8 	/* lcd: lcd_hsync */
+					0xE8 0x8 	/* lcd: lcd_pclk */
+					0xEC 0x8	/* lcd: lcd_data_enable */
+		>;
+	};
+	
+	pru0_pins: pinmux_pru0_pins {  
+      		pinctrl-single,pins = <0x1AC 0x0D>;  
+      	}; 
+};
+
+
+&tscadc {
+	status = "okay";
+	adc {
+		ti,adc-channels = <0 1 2 3 4 5 6>;	
+	};
+};
+
+&pru0 {
+	status = "okay";
+      	pinctrl-names = "default";
+      	pinctrl-0 = <&pru0_pins>;
+};
+
+&lcdc {
+	status = "okay";
+	blue-and-red-wiring = "crossed";
+};
+
+&cpu0_opp_table {
+	/*
+	 * All PG 2.0 silicon may not support 1GHz but some of the early
+	 * BeagleBone Blacks have PG 2.0 silicon which is guaranteed
+	 * to support 1GHz OPP so enable it for PG 2.0 on this board.
+	 */
+	oppnitro-1000000000 {
+		opp-supported-hw = <0x06 0x0100>;
+	};
+};

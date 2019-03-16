@@ -1,66 +1,38 @@
 ---- SSH setup ----
 Resolving hostnames...
-# Host beaglebone.local found: line 3
+# Host am335x-evm.local found: line 3
 /home/bruno/.ssh/known_hosts updated.
 Original contents retained as /home/bruno/.ssh/known_hosts.old
 Hostnames resolved.
 
----- Setup remote Wi-Fi ----
-Type your HOST user password if needed.
-
-Configuring host's IP tables...
-Host's IP tables successfully configured.
-
-Configuring remote route...
-Default password is: temppwd
-Warning: Permanently added 'beaglebone.local,192.168.6.2' (ECDSA) to the list of known hosts.
-[sudo] password for debian: 
-SIOCADDRT: File exists
-Connection to beaglebone.local closed.
-Remote route sucessfully configured.
-
 ---- Deploy files ----
 Changing remote deploy directory permissions...
-Default password is: temppwd
-[sudo] password for debian: 
-Connection to beaglebone.local closed.
+Warning: Permanently added 'am335x-evm.local,192.168.7.2' (RSA) to the list of known hosts.
+Connection to am335x-evm.local closed.
 Permissions sucessfully changed.
 
 Deploying files...
-Default password is: temppwd
 Files deployed.
 
 ---- Remote script ----
 Changing remote deploy script permissions...
-Default password is: temppwd
-[sudo] password for debian: 
-Connection to beaglebone.local closed.
 Permissions sucessfully changed.
 
 Executing remote deploy script as root...
-Default password is: temppwd
-
-[sudo] password for debian: 
 
 ---- Overlays ----
 Installing overlays...
-/lib/firmware/PRU0-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property
-/lib/firmware/PRU0-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@1 has a unit name, but no reg property
-/lib/firmware/PRU1-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property
-/lib/firmware/PRU1-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@1 has a unit name, but no reg property
-/lib/firmware/ENCODER-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property
-/lib/firmware/ENCODER-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@1 has a unit name, but no reg property
-/lib/firmware/DISPLAY-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property
-/lib/firmware/DISPLAY-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@1 has a unit name, but no reg property
-/lib/firmware/DISPLAY-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@2 has a unit name, but no reg property
-/lib/firmware/SGX-00A0.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property
 Overlays sucessfully installed.
 
 ---- Services ----
 Installing bootloader services...
-ln: failed to create symbolic link '/etc/systemd/system/stomploader.service': File exists
-ln: failed to create symbolic link '/etc/systemd/system/sgx.service': File exists
-temppwd       Bootloader services successfully installed.
+Created symlink /etc/systemd/system/multi-user.target.wants/stomploader.service → /lib/systemd/system/stomploader.service.
+Synchronizing state of matrix-gui-2.0.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable matrix-gui-2.0
+update-rc.d: /etc/init.d/matrix-gui-2.0 exists during rc.d purge (continuing)
+ Removing any system startup links for matrix-gui-2.0 ...
+Removed /etc/systemd/system/multi-user.target.wants/matrix-gui-2.0.service.
+Bootloader services successfully installed.
 
 ---- Scope application ----
 Installing the Scope application...
@@ -68,47 +40,17 @@ Scope application successfully installed.
 
 ---- Userspace libaries ----
 Installing userspace libraries...
-Userspace libraries successfully installed.
-
----- X11 server ----
-Installing 'xinit' package...
-Reading package lists... 0%Reading package lists... 0%Reading package lists... Done
-Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 1%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... 72%Building dependency tree       
-Reading state information... 0%Reading state information... 0%Reading state information... Done
-Note, selecting 'xinit' instead of '/home/debian/stomp/deploy/xorg/xinit_1.3.4-3+b1_armhf.deb'
-xinit is already the newest version (1.3.4-3+b1).
-0 upgraded, 0 newly installed, 0 to remove and 213 not upgraded.
-Package successfully installed.
-
-Installing X11 configuration file and scripts...
-X11 server successfully configured.
-
----- SGX support ----
-Installing SGX kernel drivers...
-Reading package lists... 0%Reading package lists... 0%Reading package lists... Done
-Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 1%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree... 72%Building dependency tree       
-Reading state information... 0%Reading state information... 0%Reading state information... 96%Reading state information... Done
-Note, selecting 'ti-sgx-ti335x-modules-4.9.78-ti-r94' instead of '/home/debian/stomp/deploy/sgx/drivers/ti-sgx-ti335x-modules-4.9.78-ti-r94_1stretch_armhf.deb'
-ti-sgx-ti335x-modules-4.9.78-ti-r94 is already the newest version (1stretch).
-0 upgraded, 0 newly installed, 0 to remove and 213 not upgraded.
-Kernel drivers successfully installed.
-
-Installing SGX userspace libraries...
-mkdir -p /etc
-mkdir -p /usr/bin
-mkdir -p /usr/include
-mkdir -p /usr/lib
-cp -ar etc/* /etc
-cp -ar bin/* /usr/bin
-cp -ar include/* /usr/include
-cp -ar lib/* /usr/lib
-cp: not writing through dangling symlink '/usr/lib/libglslcompiler.so'
-cp: not writing through dangling symlink '/usr/lib/libglslcompiler.so.1'
-Makefile:12: recipe for target 'install' failed
-make: *** [install] Error 1
-SGX userspace libraries successfully installed.
-
 Fixing libraries symlinks...
 Libraries symlinks successfully fixed.
 
-Connection to beaglebone.local closed.
+Userspace libraries successfully installed.
+
+---- IP address ----
+Configuring static IP address...
+Static IP address successfully configured.
+
+
+---- Instalation completed successfully ----
+
+Connection to am335x-evm.local closed by remote host.
+Connection to am335x-evm.local closed.
